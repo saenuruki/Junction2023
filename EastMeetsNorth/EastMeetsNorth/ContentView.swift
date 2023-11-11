@@ -19,15 +19,7 @@ struct ContentView: View {
     @State var isInputAudio: Bool = false
     @FocusState var isEditing: Bool
     @State var inputText: String = "Hi, I was wondering what some of the new innovations in the stainless"
-    @State var chatHistories: [Message] = [
-        .me(message: "Hi, I was wondering what some of the new innovations in the stainless steel industry are?"),
-        .ai(message: AIMessage(
-            question: "Hi, I was wondering what some of the new innovations in the stainless steel industry are?",
-            answer: "Great question! The latest research says that the topics of X and Y are really hot at the moment. They are looking into new materials using this technology which can help reduce the cost of production by 10%. ",
-            source: "title of paper",
-            reliability: 0.86,
-            url: "https://arxiv.org/pdf/1706.03762.pdf"))
-        ]
+    @State var chatHistories: [Message] = []
 
     var body: some View {
         ZStack {
@@ -89,6 +81,9 @@ struct ContentView: View {
                 if isEditing {
                     Button {
                         isEditing = false
+                        if !inputText.isEmpty {
+                            requestAISuggest()
+                        }
                     } label: {
                         Image("button_send")
                             .resizable()
@@ -219,6 +214,9 @@ struct ContentView: View {
             Spacer()
             Button {
                 isEditing = false
+                if !inputText.isEmpty {
+                    requestAISuggest()
+                }
             } label: {
                 Image("button_send")
                     .resizable()
@@ -231,6 +229,22 @@ struct ContentView: View {
         .padding(.horizontal, 36)
         .padding(.bottom, 8)
         .ignoresSafeArea(.keyboard)
+    }
+}
+
+extension ContentView {
+    func requestAISuggest() {
+        chatHistories.append(.me(message: inputText))
+        isSplash = false
+
+        Task {
+            guard let url = URL(string: "https://east-meets-north.citroner.blog/query?question=\(inputText)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return }
+            let urlRequest = URLRequest(url: url)
+            let (data, _) = try await URLSession.shared.data(for: urlRequest)
+            let aiMessage = try JSONDecoder().decode(AIMessage.self, from: data)
+            chatHistories.append(.ai(message: aiMessage))
+            inputText = ""
+        }
     }
 }
 
@@ -248,12 +262,12 @@ enum Message: Identifiable {
     }
 }
 
-struct AIMessage {
+struct AIMessage: Decodable {
     let question: String
     let answer: String
     let source: String
     let reliability: Double
-    let url: String
+//    let url: String
 }
 
 //struct ContentView_Previews: PreviewProvider {
