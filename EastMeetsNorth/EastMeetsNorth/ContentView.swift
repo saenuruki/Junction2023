@@ -50,6 +50,7 @@ struct ContentView: View {
     @State private var animateSmallCircle = false
     @State private var animateText = false
     @Namespace private var switchAnimation
+    @State private var showingSheet = false
 
     var body: some View {
         ZStack {
@@ -218,6 +219,17 @@ struct ContentView: View {
                     Text(reliabilityText)
                         .font(.system(size: 12))
                         .foregroundColor(secondalyGray)
+                    Button(action: {
+                        showingSheet.toggle()
+                    }) {
+                        Image("button_i")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16)
+                    }
+                    .sheet(isPresented: $showingSheet) {
+                        GuideView()
+                    }
                     Spacer()
                 }
                 HStack {
