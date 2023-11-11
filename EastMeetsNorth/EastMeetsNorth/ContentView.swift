@@ -15,8 +15,9 @@ struct ContentView: View {
     let placeholderGray: Color = .init(red: 214 / 255, green: 199 / 255, blue: 199 / 255)
     let secondalyGray: Color = .init(red: 142 / 255, green: 145 / 255, blue: 154 / 255)
    
-    @State var isSplash: Bool = false
+    @State var isSplash: Bool = true
     @State var isInputAudio: Bool = false
+    @FocusState var isEditing: Bool
     @State var inputText: String = "Hi, I was wondering what some of the new innovations in the stainless"
     @State var chatHistories: [Message] = [
         .me(message: "Hi, I was wondering what some of the new innovations in the stainless steel industry are?"),
@@ -52,7 +53,9 @@ struct ContentView: View {
                     chatBody
                 }
             }
-            footer
+            if !isEditing {
+                footer
+            }
         }
     }
 
@@ -75,13 +78,27 @@ struct ContentView: View {
                 }
             }
             Spacer()
-            ScrollView {
-                Text(inputText)
+            HStack(spacing: 4) {
+                TextField("", text: $inputText, axis: .vertical)
                     .font(.system(size: 24))
                     .foregroundColor(.white)
+                    .focused($isEditing)
+                    .onSubmit { isEditing = false }
+                    .padding(.horizontal, 36)
+                    .frame(maxHeight: 100)
+                if isEditing {
+                    Button {
+                        isEditing = false
+                    } label: {
+                        Image("button_send")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 57, height: 57)
+                    }
+                    .frame(width: 57, height: 57)
+                    .padding(.trailing, 24)
+                }
             }
-            .frame(maxHeight: 100)
-            .padding(.horizontal, 36)
             Spacer().frame(height: 48)
         }
     }
@@ -180,38 +197,40 @@ struct ContentView: View {
     
     var footer: some View {
         HStack(alignment: .bottom) {
-            Button {
-                print("TODO: write later")
-            } label: {
+            Button(action: {
+                isEditing = true
+            }, label: {
                 Image("button_keyboard")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 57, height: 57)
-            }
-                .frame(width: 57, height: 57)
+            })
+            .frame(width: 57, height: 57)
             Spacer()
-            Button {
+            Button(action: {
                 print("TODO: write later")
-            } label: {
+            }, label: {
                 Image("button_speech")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 88, height: 88)
-            }
-                .frame(width: 88, height: 88)
+            })
+            .frame(width: 88, height: 88)
             Spacer()
             Button {
-                print("TODO: write later")
+                isEditing = false
             } label: {
                 Image("button_send")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 57, height: 57)
             }
-                .frame(width: 57, height: 57)
+            .frame(width: 57, height: 57)
         }
         .frame(height: 108)
         .padding(.horizontal, 36)
+        .padding(.bottom, 8)
+        .ignoresSafeArea(.keyboard)
     }
 }
 
