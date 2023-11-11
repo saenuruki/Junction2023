@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PDFKit
+import Combine
 
 struct ContentView: View {
     let backgroundColor: Color = .init(red: 25 / 255, green: 27 / 255, blue: 35 / 255)
@@ -64,23 +65,32 @@ struct ContentView: View {
                 }
                 .ignoresSafeArea()
             }
+            if !isEditing {
+                VStack {
+                    Spacer()
+                    footer
+                }
+                .ignoresSafeArea()
+            }
         }
     }
     
     var mainContent: some View {
-        VStack {
-            ScrollView {
-                if isSplash {
-                    initBody
-                } else {
-                    chatBody
-                    textInputView
-                        .frame(height: !isSplash && (isEditing || isRecording) ? 100 : 0)
-                        .animation(.easeOut, value: !isSplash && (isEditing || isRecording))
+        ScrollViewReader { proxy in
+            VStack {
+                ScrollView {
+                    if isSplash {
+                        initBody
+                    } else {
+                        chatBody
+                            .onChange(of: chatHistories.count) { count in
+                                proxy.scrollTo(chatHistories.last, anchor: .bottom)
+                            }
+                        textInputView
+                            .frame(height: !isSplash && (isEditing || isRecording) ? 100 : 0)
+                            .animation(.easeOut, value: !isSplash && (isEditing || isRecording))
+                    }
                 }
-            }
-            if !isEditing {
-                footer
             }
         }
     }
@@ -184,6 +194,7 @@ struct ContentView: View {
             }
             .animation(.easeIn, value: chatHistories)
         }
+        .padding(.bottom, 80)
     }
     
     func meChat(message: String) -> some View {
@@ -351,77 +362,82 @@ struct ContentView: View {
     }
     
     var footer: some View {
-        HStack(alignment: .bottom) {
-            Button(action: {
-                isEditing = true
-            }, label: {
-                Image("button_keyboard")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 57, height: 57)
-            })
-            .frame(width: 57, height: 57)
-            Spacer()
-            
-            Button(action: {
-                if !isRecording {
-                    speechRecognizer.transcribe()
-                } else {
-                    speechRecognizer.stopTranscribing()
-                    inputText = speechRecognizer.transcript
-                }
-                isRecording.toggle()
-            }) {
-                if isRecording {
-                    ZStack {
-                        Circle() // Big circle
-                            .stroke()
-                            .frame(width: 140, height: 140)
-                            .foregroundColor(.white)
-                            .scaleEffect(animateBigCircle ? 1 : 0.3)
-                            .opacity(animateBigCircle ? 0: 1)
-                            .animation (Animation.easeInOut (duration:2)
-                                .repeatForever(autoreverses: false))
-                            .onAppear() { self.animateBigCircle.toggle() }
-                        Circle () //Gray
-                            .foregroundColor(themeBlue.opacity(0.5))
-                            .frame(width: 88, height: 88)
-                            .scaleEffect(animateSmallCircle ? 0.9 : 1.2)
-                            .animation(Animation.easeInOut (duration: 0.4)
-                                .repeatForever(autoreverses: false))
-                            .onAppear() { self.animateSmallCircle.toggle() }
-                        Image("button_stop")
+        ZStack {
+            LinearGradient(colors: [gradientColor, backgroundColor, backgroundColor, backgroundColor], startPoint: .top, endPoint: .bottom)
+                .frame(height: 148)
+            HStack(alignment: .bottom) {
+                Button(action: {
+                    isEditing = true
+                }, label: {
+                    Image("button_keyboard")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 57, height: 57)
+                })
+                .frame(width: 57, height: 57)
+                Spacer()
+                
+                Button(action: {
+                    if !isRecording {
+                        speechRecognizer.transcribe()
+                    } else {
+                        speechRecognizer.stopTranscribing()
+                        inputText = speechRecognizer.transcript
+                    }
+                    isRecording.toggle()
+                }) {
+                    if isRecording {
+                        ZStack {
+                            Circle() // Big circle
+                                .stroke()
+                                .frame(width: 140, height: 140)
+                                .foregroundColor(.white)
+                                .scaleEffect(animateBigCircle ? 1 : 0.3)
+                                .opacity(animateBigCircle ? 0: 1)
+                                .animation (Animation.easeInOut (duration:2)
+                                    .repeatForever(autoreverses: false))
+                                .onAppear() { self.animateBigCircle.toggle() }
+                            Circle () //Gray
+                                .foregroundColor(themeBlue.opacity(0.5))
+                                .frame(width: 88, height: 88)
+                                .scaleEffect(animateSmallCircle ? 0.9 : 1.2)
+                                .animation(Animation.easeInOut (duration: 0.4)
+                                    .repeatForever(autoreverses: false))
+                                .onAppear() { self.animateSmallCircle.toggle() }
+                            Image("button_stop")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 88, height: 88)
+                        }
+                    } else {
+                        Image("button_speech")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 88, height: 88)
                     }
-                } else {
-                    Image("button_speech")
+                }
+                .frame(width: 88, height: 88)
+                Spacer()
+                Button {
+                    isEditing = false
+                    isRecording = false
+                    if !inputText.isEmpty {
+                        requestAISuggest()
+                    }
+                } label: {
+                    Image("button_send")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 88, height: 88)
+                        .frame(width: 57, height: 57)
                 }
+                .frame(width: 57, height: 57)
             }
-            .frame(width: 88, height: 88)
-            Spacer()
-            Button {
-                isEditing = false
-                isRecording = false
-                if !inputText.isEmpty {
-                    requestAISuggest()
-                }
-            } label: {
-                Image("button_send")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 57, height: 57)
-            }
-            .frame(width: 57, height: 57)
+//        }
+            .padding(.bottom, 48)
+            .frame(height: 148)
+            .padding(.horizontal, 36)
+            .ignoresSafeArea(.keyboard)
         }
-        .frame(height: 108)
-        .padding(.horizontal, 36)
-        .padding(.bottom, 8)
-        .ignoresSafeArea(.keyboard)
     }
 }
 
@@ -455,7 +471,7 @@ extension ContentView {
     }
 }
 
-enum Message: Identifiable, Equatable {
+enum Message: Identifiable, Equatable, Hashable {
     case me(message: String)
     case ai(message: AIMessage)
     case paper(message: AIMessage, document: PDFDocument)
@@ -466,7 +482,7 @@ enum Message: Identifiable, Equatable {
         case .me(let message):
             return message
         case .ai(let message):
-            return message.answer
+            return message.answer + message.question
         case .paper(let message, _):
             return message.doi
         case .error(let message):
@@ -474,6 +490,10 @@ enum Message: Identifiable, Equatable {
         }
     }
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
     static func == (lhs: Message, rhs: Message) -> Bool {
         lhs.id == rhs.id
     }

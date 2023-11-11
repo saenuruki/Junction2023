@@ -39,15 +39,18 @@ struct GuideView: View {
                 newsArticles
             }
         }
-        .padding(.horizontal, 36)
+        .padding(.horizontal, 24)
     }
     
     var academicResearch: some View {
         VStack {
             Spacer().frame(height: 32)
-            Text("Academic research")
-                .font(.system(size: 16, weight: .bold))
-                .foregroundColor(.white)
+            HStack {
+                Text("Academic research")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.white)
+                Spacer()
+            }
             Spacer().frame(height: 8)
             Image("table_1")
                 .resizable()
@@ -58,9 +61,12 @@ struct GuideView: View {
     var newsArticles: some View {
         VStack {
             Spacer().frame(height: 32)
-            Text("News articles")
-                .font(.system(size: 16, weight: .bold))
-                .foregroundColor(.white)
+            HStack {
+                Text("News articles")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.white)
+                Spacer()
+            }
             Spacer().frame(height: 8)
             Text("For news articles we use NewsGards ranking on credible news sources. Their ranking includes a pool of professional journalists who ranks news sites based on nine criteria. They also have a process for reviewing, asking the news sites for feedback, and continuously updating this score.  Read more on their website. ")
                 .font(.system(size: 12))
