@@ -7,23 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FF3EB6F12AFF59B9009B3E8F /* EastMeetsNorthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB6F02AFF59B9009B3E8F /* EastMeetsNorthApp.swift */; };
-		FF3EB6F32AFF59B9009B3E8F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB6F22AFF59B9009B3E8F /* ContentView.swift */; };
-		FF3EB6F52AFF59BA009B3E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF3EB6F42AFF59BA009B3E8F /* Assets.xcassets */; };
-		FF3EB6F82AFF59BA009B3E8F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF3EB6F72AFF59BA009B3E8F /* Preview Assets.xcassets */; };
+		FF3EB7272AFF6671009B3E8F /* EastMeetsNorthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB7262AFF6671009B3E8F /* EastMeetsNorthApp.swift */; };
+		FF3EB7292AFF6671009B3E8F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB7282AFF6671009B3E8F /* ContentView.swift */; };
+		FF3EB72B2AFF6673009B3E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF3EB72A2AFF6673009B3E8F /* Assets.xcassets */; };
+		FF3EB72E2AFF6673009B3E8F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF3EB72D2AFF6673009B3E8F /* Preview Assets.xcassets */; };
+		FF3EB7352AFF7F89009B3E8F /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB7342AFF7F89009B3E8F /* RoundedCorners.swift */; };
+		FF3EB7372AFF840A009B3E8F /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB7362AFF840A009B3E8F /* CircularProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FF3EB6ED2AFF59B9009B3E8F /* EastMeetsNorth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EastMeetsNorth.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF3EB6F02AFF59B9009B3E8F /* EastMeetsNorthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EastMeetsNorthApp.swift; sourceTree = "<group>"; };
-		FF3EB6F22AFF59B9009B3E8F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		FF3EB6F42AFF59BA009B3E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FF3EB6F72AFF59BA009B3E8F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		FF3EB6F92AFF59BA009B3E8F /* EastMeetsNorth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EastMeetsNorth.entitlements; sourceTree = "<group>"; };
+		FF3EB7232AFF6671009B3E8F /* EastMeetsNorth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EastMeetsNorth.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF3EB7262AFF6671009B3E8F /* EastMeetsNorthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EastMeetsNorthApp.swift; sourceTree = "<group>"; };
+		FF3EB7282AFF6671009B3E8F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FF3EB72A2AFF6673009B3E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FF3EB72D2AFF6673009B3E8F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FF3EB7342AFF7F89009B3E8F /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
+		FF3EB7362AFF840A009B3E8F /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		FF3EB6EA2AFF59B9009B3E8F /* Frameworks */ = {
+		FF3EB7202AFF6671009B3E8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,38 +36,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FF3EB6E42AFF59B9009B3E8F = {
+		FF3EB71A2AFF6671009B3E8F = {
 			isa = PBXGroup;
 			children = (
-				FF3EB6EF2AFF59B9009B3E8F /* EastMeetsNorth */,
-				FF3EB6EE2AFF59B9009B3E8F /* Products */,
+				FF3EB7252AFF6671009B3E8F /* EastMeetsNorth */,
+				FF3EB7242AFF6671009B3E8F /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		FF3EB6EE2AFF59B9009B3E8F /* Products */ = {
+		FF3EB7242AFF6671009B3E8F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FF3EB6ED2AFF59B9009B3E8F /* EastMeetsNorth.app */,
+				FF3EB7232AFF6671009B3E8F /* EastMeetsNorth.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FF3EB6EF2AFF59B9009B3E8F /* EastMeetsNorth */ = {
+		FF3EB7252AFF6671009B3E8F /* EastMeetsNorth */ = {
 			isa = PBXGroup;
 			children = (
-				FF3EB6F02AFF59B9009B3E8F /* EastMeetsNorthApp.swift */,
-				FF3EB6F22AFF59B9009B3E8F /* ContentView.swift */,
-				FF3EB6F42AFF59BA009B3E8F /* Assets.xcassets */,
-				FF3EB6F92AFF59BA009B3E8F /* EastMeetsNorth.entitlements */,
-				FF3EB6F62AFF59BA009B3E8F /* Preview Content */,
+				FF3EB7262AFF6671009B3E8F /* EastMeetsNorthApp.swift */,
+				FF3EB7282AFF6671009B3E8F /* ContentView.swift */,
+				FF3EB72A2AFF6673009B3E8F /* Assets.xcassets */,
+				FF3EB72C2AFF6673009B3E8F /* Preview Content */,
+				FF3EB7342AFF7F89009B3E8F /* RoundedCorners.swift */,
+				FF3EB7362AFF840A009B3E8F /* CircularProgressView.swift */,
 			);
 			path = EastMeetsNorth;
 			sourceTree = "<group>";
 		};
-		FF3EB6F62AFF59BA009B3E8F /* Preview Content */ = {
+		FF3EB72C2AFF6673009B3E8F /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				FF3EB6F72AFF59BA009B3E8F /* Preview Assets.xcassets */,
+				FF3EB72D2AFF6673009B3E8F /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -72,13 +76,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FF3EB6EC2AFF59B9009B3E8F /* EastMeetsNorth */ = {
+		FF3EB7222AFF6671009B3E8F /* EastMeetsNorth */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FF3EB6FC2AFF59BA009B3E8F /* Build configuration list for PBXNativeTarget "EastMeetsNorth" */;
+			buildConfigurationList = FF3EB7312AFF6673009B3E8F /* Build configuration list for PBXNativeTarget "EastMeetsNorth" */;
 			buildPhases = (
-				FF3EB6E92AFF59B9009B3E8F /* Sources */,
-				FF3EB6EA2AFF59B9009B3E8F /* Frameworks */,
-				FF3EB6EB2AFF59B9009B3E8F /* Resources */,
+				FF3EB71F2AFF6671009B3E8F /* Sources */,
+				FF3EB7202AFF6671009B3E8F /* Frameworks */,
+				FF3EB7212AFF6671009B3E8F /* Resources */,
 			);
 			buildRules = (
 			);
@@ -86,25 +90,25 @@
 			);
 			name = EastMeetsNorth;
 			productName = EastMeetsNorth;
-			productReference = FF3EB6ED2AFF59B9009B3E8F /* EastMeetsNorth.app */;
+			productReference = FF3EB7232AFF6671009B3E8F /* EastMeetsNorth.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		FF3EB6E52AFF59B9009B3E8F /* Project object */ = {
+		FF3EB71B2AFF6671009B3E8F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					FF3EB6EC2AFF59B9009B3E8F = {
+					FF3EB7222AFF6671009B3E8F = {
 						CreatedOnToolsVersion = 14.3;
 					};
 				};
 			};
-			buildConfigurationList = FF3EB6E82AFF59B9009B3E8F /* Build configuration list for PBXProject "EastMeetsNorth" */;
+			buildConfigurationList = FF3EB71E2AFF6671009B3E8F /* Build configuration list for PBXProject "EastMeetsNorth" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -112,42 +116,44 @@
 				en,
 				Base,
 			);
-			mainGroup = FF3EB6E42AFF59B9009B3E8F;
-			productRefGroup = FF3EB6EE2AFF59B9009B3E8F /* Products */;
+			mainGroup = FF3EB71A2AFF6671009B3E8F;
+			productRefGroup = FF3EB7242AFF6671009B3E8F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FF3EB6EC2AFF59B9009B3E8F /* EastMeetsNorth */,
+				FF3EB7222AFF6671009B3E8F /* EastMeetsNorth */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		FF3EB6EB2AFF59B9009B3E8F /* Resources */ = {
+		FF3EB7212AFF6671009B3E8F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF3EB6F82AFF59BA009B3E8F /* Preview Assets.xcassets in Resources */,
-				FF3EB6F52AFF59BA009B3E8F /* Assets.xcassets in Resources */,
+				FF3EB72E2AFF6673009B3E8F /* Preview Assets.xcassets in Resources */,
+				FF3EB72B2AFF6673009B3E8F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		FF3EB6E92AFF59B9009B3E8F /* Sources */ = {
+		FF3EB71F2AFF6671009B3E8F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF3EB6F32AFF59B9009B3E8F /* ContentView.swift in Sources */,
-				FF3EB6F12AFF59B9009B3E8F /* EastMeetsNorthApp.swift in Sources */,
+				FF3EB7292AFF6671009B3E8F /* ContentView.swift in Sources */,
+				FF3EB7352AFF7F89009B3E8F /* RoundedCorners.swift in Sources */,
+				FF3EB7372AFF840A009B3E8F /* CircularProgressView.swift in Sources */,
+				FF3EB7272AFF6671009B3E8F /* EastMeetsNorthApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		FF3EB6FA2AFF59BA009B3E8F /* Debug */ = {
+		FF3EB72F2AFF6673009B3E8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -197,17 +203,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		FF3EB6FB2AFF59BA009B3E8F /* Release */ = {
+		FF3EB7302AFF6673009B3E8F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -251,91 +257,96 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
+				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		FF3EB6FD2AFF59BA009B3E8F /* Debug */ = {
+		FF3EB7322AFF6673009B3E8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = EastMeetsNorth/EastMeetsNorth.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EastMeetsNorth/Preview Content\"";
 				DEVELOPMENT_TEAM = 679U29FZ6S;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
+					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saenuruki.EastMeetsNorth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		FF3EB6FE2AFF59BA009B3E8F /* Release */ = {
+		FF3EB7332AFF6673009B3E8F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = EastMeetsNorth/EastMeetsNorth.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EastMeetsNorth/Preview Content\"";
 				DEVELOPMENT_TEAM = 679U29FZ6S;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
+					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saenuruki.EastMeetsNorth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FF3EB6E82AFF59B9009B3E8F /* Build configuration list for PBXProject "EastMeetsNorth" */ = {
+		FF3EB71E2AFF6671009B3E8F /* Build configuration list for PBXProject "EastMeetsNorth" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FF3EB6FA2AFF59BA009B3E8F /* Debug */,
-				FF3EB6FB2AFF59BA009B3E8F /* Release */,
+				FF3EB72F2AFF6673009B3E8F /* Debug */,
+				FF3EB7302AFF6673009B3E8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FF3EB6FC2AFF59BA009B3E8F /* Build configuration list for PBXNativeTarget "EastMeetsNorth" */ = {
+		FF3EB7312AFF6673009B3E8F /* Build configuration list for PBXNativeTarget "EastMeetsNorth" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FF3EB6FD2AFF59BA009B3E8F /* Debug */,
-				FF3EB6FE2AFF59BA009B3E8F /* Release */,
+				FF3EB7322AFF6673009B3E8F /* Debug */,
+				FF3EB7332AFF6673009B3E8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = FF3EB6E52AFF59B9009B3E8F /* Project object */;
+	rootObject = FF3EB71B2AFF6671009B3E8F /* Project object */;
 }
