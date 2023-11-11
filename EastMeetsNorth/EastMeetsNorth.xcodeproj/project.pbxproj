@@ -13,6 +13,7 @@
 		FF3EB72E2AFF6673009B3E8F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF3EB72D2AFF6673009B3E8F /* Preview Assets.xcassets */; };
 		FF3EB7352AFF7F89009B3E8F /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB7342AFF7F89009B3E8F /* RoundedCorners.swift */; };
 		FF3EB7372AFF840A009B3E8F /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB7362AFF840A009B3E8F /* CircularProgressView.swift */; };
+		FF3EB7392AFFBD29009B3E8F /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB7382AFFBD29009B3E8F /* SpeechRecognizer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		FF3EB72D2AFF6673009B3E8F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FF3EB7342AFF7F89009B3E8F /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		FF3EB7362AFF840A009B3E8F /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
+		FF3EB7382AFFBD29009B3E8F /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				FF3EB72C2AFF6673009B3E8F /* Preview Content */,
 				FF3EB7342AFF7F89009B3E8F /* RoundedCorners.swift */,
 				FF3EB7362AFF840A009B3E8F /* CircularProgressView.swift */,
+				FF3EB7382AFFBD29009B3E8F /* SpeechRecognizer.swift */,
 			);
 			path = EastMeetsNorth;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF3EB7392AFFBD29009B3E8F /* SpeechRecognizer.swift in Sources */,
 				FF3EB7292AFF6671009B3E8F /* ContentView.swift in Sources */,
 				FF3EB7352AFF7F89009B3E8F /* RoundedCorners.swift in Sources */,
 				FF3EB7372AFF840A009B3E8F /* CircularProgressView.swift in Sources */,
@@ -278,6 +282,8 @@
 				DEVELOPMENT_TEAM = 679U29FZ6S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Audio is recorded to transcription in the app.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Audio is recorded to transcription in the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -308,6 +314,8 @@
 				DEVELOPMENT_TEAM = 679U29FZ6S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Audio is recorded to transcription in the app.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Audio is recorded to transcription in the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

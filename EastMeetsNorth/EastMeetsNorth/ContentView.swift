@@ -23,10 +23,13 @@ struct ContentView: View {
     }
    
     @State var isSplash: Bool = true
-    @State var isInputAudio: Bool = false
+    @StateObject var speechRecognizer = SpeechRecognizer()
+    @State private var isRecording = false
     @FocusState var isEditing: Bool
     @State var inputText: String = "Hi, I was wondering what some of the new innovations in the stainless"
     @State var chatHistories: [Message] = []
+    @State private var animateBigCircle = false
+    @State private var animateSmallCircle = false
     @Namespace private var switchAnimation
 
     var body: some View {
@@ -83,7 +86,17 @@ struct ContentView: View {
                 .opacity(isSplash ? 1.0 : 0.0)
             }
             Spacer()
-            textInputView
+            if isRecording {
+                ScrollView {
+                    Text(speechRecognizer.transcript)
+                        .font(.system(size: 24))
+                        .foregroundColor(.white)
+                }
+                .padding(.horizontal, 36)
+                .frame(maxHeight: 100)
+            } else {
+                textInputView
+            }
             Spacer().frame(height: 48)
         }
     }
@@ -248,14 +261,46 @@ struct ContentView: View {
             })
             .frame(width: 57, height: 57)
             Spacer()
+            
             Button(action: {
-                print("TODO: write later")
-            }, label: {
-                Image("button_speech")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 88, height: 88)
-            })
+                if !isRecording {
+                    speechRecognizer.transcribe()
+                } else {
+                    speechRecognizer.stopTranscribing()
+                    inputText = speechRecognizer.transcript
+                }
+                isRecording.toggle()
+            }) {
+                if isRecording {
+                    ZStack {
+                        Circle() // Big circle
+                            .stroke()
+                            .frame(width: 140, height: 140)
+                            .foregroundColor(.white)
+                            .scaleEffect(animateBigCircle ? 1 : 0.3)
+                            .opacity(animateBigCircle ? 0: 1)
+                            .animation (Animation.easeInOut (duration:2)
+                                .repeatForever(autoreverses: false))
+                            .onAppear() { self.animateBigCircle.toggle() }
+                        Circle () //Gray
+                            .foregroundColor(themeBlue.opacity(0.5))
+                            .frame(width: 88, height: 88)
+                            .scaleEffect(animateSmallCircle ? 0.9 : 1.2)
+                            .animation(Animation.easeInOut (duration: 0.4)
+                                .repeatForever(autoreverses: false))
+                            .onAppear() { self.animateSmallCircle.toggle() }
+                        Image("button_stop")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 88, height: 88)
+                    }
+                } else {
+                    Image("button_speech")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 88, height: 88)
+                }
+            }
             .frame(width: 88, height: 88)
             Spacer()
             Button {
