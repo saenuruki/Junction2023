@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CircularProgressView: View {
+    @State var progress2: Double = .zero
     let progress: Double
     
     let accentColor: Color = .init(red: 83 / 255, green: 178 / 255, blue: 235 / 255)
@@ -21,7 +22,7 @@ struct CircularProgressView: View {
                     lineWidth: 4
                 )
             Circle()
-                .trim(from: 0, to: progress)
+                .trim(from: 0, to: progress2)
                 .stroke(
                     accentColor,
                     style: StrokeStyle(
@@ -30,9 +31,12 @@ struct CircularProgressView: View {
                     )
                 )
                 .rotationEffect(.degrees(-90))
-                // 1
-                .animation(.easeOut, value: progress)
-
+                .animation(.easeOut.delay(0.5), value: progress2)
+        }
+        .onAppear {
+            withAnimation {
+                progress2 = progress
+            }
         }
     }
 }

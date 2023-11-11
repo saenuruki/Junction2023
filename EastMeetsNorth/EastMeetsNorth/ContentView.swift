@@ -14,12 +14,20 @@ struct ContentView: View {
     let themeGray: Color = .init(red: 46 / 255, green: 48 / 255, blue: 51 / 255)
     let placeholderGray: Color = .init(red: 214 / 255, green: 199 / 255, blue: 199 / 255)
     let secondalyGray: Color = .init(red: 142 / 255, green: 145 / 255, blue: 154 / 255)
+    
+    var reliability: Double? {
+        guard
+            let lastChat = chatHistories.last,
+            case .ai(let message) = lastChat else { return nil}
+        return message.reliability
+    }
    
     @State var isSplash: Bool = true
     @State var isInputAudio: Bool = false
     @FocusState var isEditing: Bool
     @State var inputText: String = "Hi, I was wondering what some of the new innovations in the stainless"
     @State var chatHistories: [Message] = []
+    @Namespace private var switchAnimation
 
     var body: some View {
         ZStack {
@@ -48,6 +56,9 @@ struct ContentView: View {
             if !isEditing {
                 footer
             }
+            if !isSplash && isEditing {
+                textInputView
+            }
         }
     }
 
@@ -59,6 +70,7 @@ struct ContentView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .padding(.horizontal, 36)
+                    .matchedGeometryEffect(id: "circleImage", in: switchAnimation)
                 VStack {
                     Text("Hi, how can I help you?")
                         .font(.system(size: 24))
@@ -68,48 +80,49 @@ struct ContentView: View {
                         .font(.system(size: 16))
                         .foregroundColor(placeholderGray)
                 }
+                .opacity(isSplash ? 1.0 : 0.0)
             }
             Spacer()
-            HStack(spacing: 4) {
-                TextField("", text: $inputText, axis: .vertical)
-                    .font(.system(size: 24))
-                    .foregroundColor(.white)
-                    .focused($isEditing)
-                    .onSubmit { isEditing = false }
-                    .padding(.horizontal, 36)
-                    .frame(maxHeight: 100)
-                if isEditing {
-                    Button {
-                        isEditing = false
-                        if !inputText.isEmpty {
-                            requestAISuggest()
-                        }
-                    } label: {
-                        Image("button_send")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 57, height: 57)
-                    }
-                    .frame(width: 57, height: 57)
-                    .padding(.trailing, 24)
-                }
-            }
+            textInputView
             Spacer().frame(height: 48)
         }
     }
     
     var chatHeader: some View {
         ZStack {
-            LinearGradient(colors: [backgroundColor, gradientColor], startPoint: .top, endPoint: .bottom)
+            LinearGradient(colors: [backgroundColor, backgroundColor, backgroundColor, gradientColor], startPoint: .top, endPoint: .bottom)
             HStack {
-                Image("main_circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                circleImage
                     .frame(height: 128)
+                    .matchedGeometryEffect(id: "circleImage", in: switchAnimation)
+                    .animation(.easeOut(duration: 2), value: reliability)
                 Spacer()
             }
         }
         .frame(height: 180)
+    }
+
+    var circleImage: some View {
+        guard let reliability else {
+            return Image("main_circle")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        }
+
+        switch reliability {
+        case let reliability where reliability >= 0.7:
+            return Image("main_circle_green")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        case let reliability where reliability >= 0.4:
+            return Image("main_circle_yellow")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        default:
+            return Image("main_circle_red")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        }
     }
     
     var chatBody: some View {
@@ -123,6 +136,7 @@ struct ContentView: View {
                     aiChat(message: message)
                 }
             }
+            .animation(.easeIn, value: chatHistories)
         }
     }
     
@@ -138,6 +152,7 @@ struct ContentView: View {
                 .frame(maxWidth: UIScreen.screenWidth * 0.8)
         }
         .padding(.horizontal, 24)
+        .transition(.move(edge: .bottom))
     }
     
     func aiChat(message: AIMessage) -> some View {
@@ -161,9 +176,12 @@ struct ContentView: View {
                         .foregroundColor(secondalyGray)
                     Spacer()
                 }
-                Text(message.answer)
-                    .font(.system(size: 14))
-                    .foregroundColor(.white)
+                HStack {
+                    Text(message.answer)
+                        .font(.system(size: 14))
+                        .foregroundColor(.white)
+                    Spacer()
+                }
                 HStack(spacing: 4) {
                     Text("Source:")
                         .font(.system(size: 12))
@@ -188,6 +206,34 @@ struct ContentView: View {
             Spacer()
         }
         .padding(.horizontal, 24)
+        .transition(.move(edge: .bottom))
+    }
+
+    var textInputView: some View {
+        HStack(spacing: 4) {
+            TextField("", text: $inputText, axis: .vertical)
+                .font(.system(size: 24))
+                .foregroundColor(.white)
+                .focused($isEditing)
+                .onSubmit { isEditing = false }
+                .padding(.horizontal, 36)
+                .frame(maxHeight: 100)
+            if isEditing {
+                Button {
+                    isEditing = false
+                    if !inputText.isEmpty {
+                        requestAISuggest()
+                    }
+                } label: {
+                    Image("button_send")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 57, height: 57)
+                }
+                .frame(width: 57, height: 57)
+                .padding(.trailing, 24)
+            }
+        }
     }
     
     var footer: some View {
@@ -234,8 +280,10 @@ struct ContentView: View {
 
 extension ContentView {
     func requestAISuggest() {
-        chatHistories.append(.me(message: inputText))
-        isSplash = false
+        withAnimation {
+            chatHistories.append(.me(message: inputText))
+            isSplash = false
+        }
 
         Task {
             guard let url = URL(string: "https://east-meets-north.citroner.blog/query?question=\(inputText)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return }
@@ -248,7 +296,7 @@ extension ContentView {
     }
 }
 
-enum Message: Identifiable {
+enum Message: Identifiable, Equatable {
     case me(message: String)
     case ai(message: AIMessage)
 
@@ -260,6 +308,10 @@ enum Message: Identifiable {
             return message.answer
         }
     }
+    
+    static func == (lhs: Message, rhs: Message) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 struct AIMessage: Decodable {
@@ -269,12 +321,6 @@ struct AIMessage: Decodable {
     let reliability: Double
 //    let url: String
 }
-
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
 
 extension UIScreen{
    static let screenWidth = UIScreen.main.bounds.size.width
