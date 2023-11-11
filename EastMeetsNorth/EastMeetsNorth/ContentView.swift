@@ -185,7 +185,6 @@ struct ContentView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 12)
                 .background(RoundedCorners(color: themeBlue, tl: 16, tr: 0, bl: 16, br: 16))
-                .frame(maxWidth: UIScreen.screenWidth * 0.8)
         }
         .padding(.horizontal, 24)
         .transition(.move(edge: .bottom))
@@ -194,7 +193,7 @@ struct ContentView: View {
     func aiChat(message: AIMessage) -> some View {
         HStack {
             VStack {
-                HStack(spacing: 4) {
+                HStack(spacing: 8) {
                     ZStack {
                         CircularProgressView(progress: message.reliability)
                             .frame(width: 42, height: 42)
@@ -238,7 +237,6 @@ struct ContentView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
             .background(RoundedCorners(color: themeGray, tl: 0, tr: 16, bl: 16, br: 16))
-            .frame(maxWidth: UIScreen.screenWidth * 0.8)
             Spacer()
         }
         .padding(.horizontal, 24)
@@ -253,7 +251,6 @@ struct ContentView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 12)
                 .background(RoundedCorners(color: themeGray, tl: 16, tr: 0, bl: 16, br: 16))
-                .frame(maxWidth: UIScreen.screenWidth * 0.8)
             Spacer()
         }
         .padding(.horizontal, 24)
