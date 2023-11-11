@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PDFKit
 
 struct ContentView: View {
     let backgroundColor: Color = .init(red: 25 / 255, green: 27 / 255, blue: 35 / 255)
@@ -15,9 +16,15 @@ struct ContentView: View {
     let placeholderGray: Color = .init(red: 214 / 255, green: 199 / 255, blue: 199 / 255)
     let secondalyGray: Color = .init(red: 142 / 255, green: 145 / 255, blue: 154 / 255)
     
+    func isAIMessage(with message: Message) -> Bool {
+        if case .ai(_) = message {
+            return true
+        }
+        return false
+    }
     var reliability: Double? {
         guard
-            let lastChat = chatHistories.last,
+            let lastChat = chatHistories.filter({ isAIMessage(with: $0) }).last,
             case .ai(let message) = lastChat else { return nil}
         return message.reliability
     }
@@ -37,7 +44,7 @@ struct ContentView: View {
     @StateObject var speechRecognizer = SpeechRecognizer()
     @State private var isRecording = false
     @FocusState var isEditing: Bool
-    @State var inputText: String = "Hi, I was wondering what some of the new innovations in the stainless"
+    @State var inputText: String = ""
     @State var chatHistories: [Message] = []
     @State private var animateBigCircle = false
     @State private var animateSmallCircle = false
@@ -168,6 +175,8 @@ struct ContentView: View {
                     meChat(message: message)
                 case .ai(let message):
                     aiChat(message: message)
+                case .paper(let message):
+                    paperChat(message: message)
                 case .error(let message):
                     errorChat(message: message)
                 }
@@ -221,16 +230,20 @@ struct ContentView: View {
                     Text("Source:")
                         .font(.system(size: 12))
                         .foregroundColor(secondalyGray)
-                    Text(message.doi)
-                        .font(.system(size: 10))
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 2)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(lineWidth: 1)
-                                .fill(secondalyGray)
-                        }
+                    Button(action: {
+                        chatHistories.append(.paper(message: message))
+                    }) {
+                        Text(message.doi)
+                            .font(.system(size: 10))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 2)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(lineWidth: 1)
+                                    .fill(secondalyGray)
+                            }
+                    }
                     Spacer()
                 }
             }
@@ -238,6 +251,46 @@ struct ContentView: View {
             .padding(.vertical, 12)
             .background(RoundedCorners(color: themeGray, tl: 0, tr: 16, bl: 16, br: 16))
             Spacer()
+        }
+        .padding(.horizontal, 24)
+        .transition(.move(edge: .bottom))
+    }
+
+    func paperChat(message: AIMessage) -> some View {
+        Group {
+            HStack {
+                Text("This is where I found the information")
+                    .font(.system(size: 14))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .background(RoundedCorners(color: themeGray, tl: 0, tr: 16, bl: 16, br: 16))
+                Spacer()
+            }
+            HStack {
+                VStack {
+                    if let pdfURL = URL(string: message.source) {
+                        ScrollView {
+                            PDFKitView(url: pdfURL)
+                        }
+                        .frame(height: 160)
+                    }
+                    HStack {
+                        Text(message.author + " " + message.organization)
+                            .font(.system(size: 10))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Text(message.publication_date)
+                            .font(.system(size: 10))
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal, 16)
+                    .frame(height: 36)
+                    .background(themeGray)
+                }
+                .cornerRadius(16)
+                Spacer()
+            }
         }
         .padding(.horizontal, 24)
         .transition(.move(edge: .bottom))
@@ -250,7 +303,7 @@ struct ContentView: View {
                 .foregroundColor(.white)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 12)
-                .background(RoundedCorners(color: themeGray, tl: 16, tr: 0, bl: 16, br: 16))
+                .background(RoundedCorners(color: themeGray, tl: 0, tr: 16, bl: 16, br: 16))
             Spacer()
         }
         .padding(.horizontal, 24)
@@ -383,6 +436,7 @@ extension ContentView {
 enum Message: Identifiable, Equatable {
     case me(message: String)
     case ai(message: AIMessage)
+    case paper(message: AIMessage)
     case error(message: String)
 
     var id: String {
@@ -391,6 +445,8 @@ enum Message: Identifiable, Equatable {
             return message
         case .ai(let message):
             return message.answer
+        case .paper(let message):
+            return message.doi
         case .error(let message):
             return message
         }
