@@ -21,6 +21,17 @@ struct ContentView: View {
             case .ai(let message) = lastChat else { return nil}
         return message.reliability
     }
+    var reliabilityText: String {
+        guard let reliability else { return "Not very reliable" }
+        switch reliability {
+        case let reliability where reliability >= 0.7:
+            return "Reliable"
+        case let reliability where reliability >= 0.4:
+            return "Pretty reliable"
+        default:
+            return "Not very reliable"
+        }
+    }
    
     @State var isSplash: Bool = true
     @StateObject var speechRecognizer = SpeechRecognizer()
@@ -30,6 +41,7 @@ struct ContentView: View {
     @State var chatHistories: [Message] = []
     @State private var animateBigCircle = false
     @State private var animateSmallCircle = false
+    @State private var animateText = false
     @Namespace private var switchAnimation
 
     var body: some View {
@@ -74,16 +86,20 @@ struct ContentView: View {
                     .aspectRatio(contentMode: .fit)
                     .padding(.horizontal, 36)
                     .matchedGeometryEffect(id: "circleImage", in: switchAnimation)
-                VStack {
-                    Text("Hi, how can I help you?")
-                        .font(.system(size: 24))
-                        .foregroundColor(.white)
-                    Spacer().frame(height: 16)
-                    Text("Go ahead, I’m listening")
-                        .font(.system(size: 16))
-                        .foregroundColor(placeholderGray)
+                if animateText {
+                    VStack {
+                        Text("Hi, how can I help you?")
+                            .font(.system(size: 20))
+                            .foregroundColor(.white)
+                            .transition(.scale)
+                        Spacer().frame(height: 16)
+                        Text("Go ahead, I’m listening")
+                            .font(.system(size: 16))
+                            .foregroundColor(placeholderGray)
+                            .transition(.scale)
+                    }
+                    .opacity(isSplash ? 1.0 : 0.0)
                 }
-                .opacity(isSplash ? 1.0 : 0.0)
             }
             Spacer()
             if isRecording {
@@ -98,6 +114,11 @@ struct ContentView: View {
                 textInputView
             }
             Spacer().frame(height: 48)
+        }
+        .onAppear {
+            withAnimation() {
+                animateText = true
+            }
         }
     }
     
@@ -147,6 +168,8 @@ struct ContentView: View {
                     meChat(message: message)
                 case .ai(let message):
                     aiChat(message: message)
+                case .error(let message):
+                    errorChat(message: message)
                 }
             }
             .animation(.easeIn, value: chatHistories)
@@ -184,7 +207,7 @@ struct ContentView: View {
                                 .foregroundColor(.white)
                         }
                     }
-                    Text(" Reliable")
+                    Text(reliabilityText)
                         .font(.system(size: 12))
                         .foregroundColor(secondalyGray)
                     Spacer()
@@ -199,7 +222,7 @@ struct ContentView: View {
                     Text("Source:")
                         .font(.system(size: 12))
                         .foregroundColor(secondalyGray)
-                    Text(message.source)
+                    Text(message.doi)
                         .font(.system(size: 10))
                         .foregroundColor(.white)
                         .padding(.horizontal, 14)
@@ -216,6 +239,21 @@ struct ContentView: View {
             .padding(.vertical, 12)
             .background(RoundedCorners(color: themeGray, tl: 0, tr: 16, bl: 16, br: 16))
             .frame(maxWidth: UIScreen.screenWidth * 0.8)
+            Spacer()
+        }
+        .padding(.horizontal, 24)
+        .transition(.move(edge: .bottom))
+    }
+    
+    func errorChat(message: String) -> some View {
+        HStack {
+            Text(message)
+                .font(.system(size: 14))
+                .foregroundColor(.white)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 12)
+                .background(RoundedCorners(color: themeGray, tl: 16, tr: 0, bl: 16, br: 16))
+                .frame(maxWidth: UIScreen.screenWidth * 0.8)
             Spacer()
         }
         .padding(.horizontal, 24)
@@ -331,12 +369,16 @@ extension ContentView {
         }
 
         Task {
-            guard let url = URL(string: "https://east-meets-north.citroner.blog/query?question=\(inputText)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return }
-            let urlRequest = URLRequest(url: url)
-            let (data, _) = try await URLSession.shared.data(for: urlRequest)
-            let aiMessage = try JSONDecoder().decode(AIMessage.self, from: data)
-            chatHistories.append(.ai(message: aiMessage))
-            inputText = ""
+            do {
+                guard let url = URL(string: "https://east-meets-north.citroner.blog/query?question=\(inputText)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return }
+                let urlRequest = URLRequest(url: url)
+                let (data, _) = try await URLSession.shared.data(for: urlRequest)
+                let aiMessage = try JSONDecoder().decode(AIMessage.self, from: data)
+                chatHistories.append(.ai(message: aiMessage))
+                inputText = ""
+            } catch {
+                chatHistories.append(.error(message: "Please try it later"))
+            }
         }
     }
 }
@@ -344,6 +386,7 @@ extension ContentView {
 enum Message: Identifiable, Equatable {
     case me(message: String)
     case ai(message: AIMessage)
+    case error(message: String)
 
     var id: String {
         switch self {
@@ -351,6 +394,8 @@ enum Message: Identifiable, Equatable {
             return message
         case .ai(let message):
             return message.answer
+        case .error(let message):
+            return message
         }
     }
     
@@ -364,7 +409,10 @@ struct AIMessage: Decodable {
     let answer: String
     let source: String
     let reliability: Double
-//    let url: String
+    let doi: String
+    let author: String
+    let organization: String
+    let publication_date: String
 }
 
 extension UIScreen{
