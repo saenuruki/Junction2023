@@ -73,13 +73,13 @@ struct ContentView: View {
                     initBody
                 } else {
                     chatBody
+                    textInputView
+                        .frame(height: !isSplash && (isEditing || isRecording) ? 100 : 0)
+                        .animation(.easeOut, value: !isSplash && (isEditing || isRecording))
                 }
             }
             if !isEditing {
                 footer
-            }
-            if !isSplash && isEditing {
-                textInputView
             }
         }
     }
@@ -322,6 +322,7 @@ struct ContentView: View {
             if isEditing {
                 Button {
                     isEditing = false
+                    isRecording = false
                     if !inputText.isEmpty {
                         requestAISuggest()
                     }
@@ -393,6 +394,7 @@ struct ContentView: View {
             Spacer()
             Button {
                 isEditing = false
+                isRecording = false
                 if !inputText.isEmpty {
                     requestAISuggest()
                 }
