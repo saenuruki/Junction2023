@@ -8,6 +8,7 @@
 import SwiftUI
 import PDFKit
 import Combine
+import Kingfisher
 
 struct ContentView: View {
     let backgroundColor: Color = .init(red: 25 / 255, green: 27 / 255, blue: 35 / 255)
@@ -99,6 +100,8 @@ struct ContentView: View {
         VStack {
             Spacer()
             ZStack {
+//                let url = Bundle.main.url(forResource: "main_circle", withExtension: "gif")
+//                AnimatedGifView(url: url)
                 Image("main_circle")
                     .resizable()
                     .aspectRatio(contentMode: .fit)

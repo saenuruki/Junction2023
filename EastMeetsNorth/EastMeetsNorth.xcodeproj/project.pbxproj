@@ -16,6 +16,9 @@
 		FF3EB7392AFFBD29009B3E8F /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB7382AFFBD29009B3E8F /* SpeechRecognizer.swift */; };
 		FF3EB73B2AFFDA57009B3E8F /* SwiftPDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB73A2AFFDA57009B3E8F /* SwiftPDFView.swift */; };
 		FF3EB73D2B00009C009B3E8F /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB73C2B00009C009B3E8F /* GuideView.swift */; };
+		FF3EB7442B001D20009B3E8F /* AnimatedGifView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB7432B001D20009B3E8F /* AnimatedGifView.swift */; };
+		FF3EB7462B001D50009B3E8F /* main_circle.gif in Resources */ = {isa = PBXBuildFile; fileRef = FF3EB7452B001D50009B3E8F /* main_circle.gif */; };
+		FF3EB7492B001FED009B3E8F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FF3EB7482B001FED009B3E8F /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,8 @@
 		FF3EB7382AFFBD29009B3E8F /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		FF3EB73A2AFFDA57009B3E8F /* SwiftPDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftPDFView.swift; sourceTree = "<group>"; };
 		FF3EB73C2B00009C009B3E8F /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
+		FF3EB7432B001D20009B3E8F /* AnimatedGifView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedGifView.swift; sourceTree = "<group>"; };
+		FF3EB7452B001D50009B3E8F /* main_circle.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = main_circle.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF3EB7492B001FED009B3E8F /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +67,7 @@
 		FF3EB7252AFF6671009B3E8F /* EastMeetsNorth */ = {
 			isa = PBXGroup;
 			children = (
+				FF3EB7452B001D50009B3E8F /* main_circle.gif */,
 				FF3EB7262AFF6671009B3E8F /* EastMeetsNorthApp.swift */,
 				FF3EB7282AFF6671009B3E8F /* ContentView.swift */,
 				FF3EB72A2AFF6673009B3E8F /* Assets.xcassets */,
@@ -70,6 +77,7 @@
 				FF3EB7382AFFBD29009B3E8F /* SpeechRecognizer.swift */,
 				FF3EB73A2AFFDA57009B3E8F /* SwiftPDFView.swift */,
 				FF3EB73C2B00009C009B3E8F /* GuideView.swift */,
+				FF3EB7432B001D20009B3E8F /* AnimatedGifView.swift */,
 			);
 			path = EastMeetsNorth;
 			sourceTree = "<group>";
@@ -98,6 +106,9 @@
 			dependencies = (
 			);
 			name = EastMeetsNorth;
+			packageProductDependencies = (
+				FF3EB7482B001FED009B3E8F /* Kingfisher */,
+			);
 			productName = EastMeetsNorth;
 			productReference = FF3EB7232AFF6671009B3E8F /* EastMeetsNorth.app */;
 			productType = "com.apple.product-type.application";
@@ -126,6 +137,9 @@
 				Base,
 			);
 			mainGroup = FF3EB71A2AFF6671009B3E8F;
+			packageReferences = (
+				FF3EB7472B001FED009B3E8F /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = FF3EB7242AFF6671009B3E8F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -140,6 +154,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF3EB7462B001D50009B3E8F /* main_circle.gif in Resources */,
 				FF3EB72E2AFF6673009B3E8F /* Preview Assets.xcassets in Resources */,
 				FF3EB72B2AFF6673009B3E8F /* Assets.xcassets in Resources */,
 			);
@@ -156,6 +171,7 @@
 				FF3EB73B2AFFDA57009B3E8F /* SwiftPDFView.swift in Sources */,
 				FF3EB7292AFF6671009B3E8F /* ContentView.swift in Sources */,
 				FF3EB7352AFF7F89009B3E8F /* RoundedCorners.swift in Sources */,
+				FF3EB7442B001D20009B3E8F /* AnimatedGifView.swift in Sources */,
 				FF3EB73D2B00009C009B3E8F /* GuideView.swift in Sources */,
 				FF3EB7372AFF840A009B3E8F /* CircularProgressView.swift in Sources */,
 				FF3EB7272AFF6671009B3E8F /* EastMeetsNorthApp.swift in Sources */,
@@ -367,6 +383,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FF3EB7472B001FED009B3E8F /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FF3EB7482B001FED009B3E8F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF3EB7472B001FED009B3E8F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FF3EB71B2AFF6671009B3E8F /* Project object */;
 }
