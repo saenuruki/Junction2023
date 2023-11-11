@@ -175,8 +175,8 @@ struct ContentView: View {
                     meChat(message: message)
                 case .ai(let message):
                     aiChat(message: message)
-                case .paper(let message):
-                    paperChat(message: message)
+                case .paper(let message, let document):
+                    paperChat(message: message, document: document)
                 case .error(let message):
                     errorChat(message: message)
                 }
@@ -231,7 +231,7 @@ struct ContentView: View {
                         .font(.system(size: 12))
                         .foregroundColor(secondalyGray)
                     Button(action: {
-                        chatHistories.append(.paper(message: message))
+                        insertPaper(with: message)
                     }) {
                         Text(message.doi)
                             .font(.system(size: 10))
@@ -256,7 +256,7 @@ struct ContentView: View {
         .transition(.move(edge: .bottom))
     }
 
-    func paperChat(message: AIMessage) -> some View {
+    func paperChat(message: AIMessage, document: PDFDocument) -> some View {
         Group {
             HStack {
                 Text("This is where I found the information")
@@ -269,12 +269,12 @@ struct ContentView: View {
             }
             HStack {
                 VStack {
-                    if let pdfURL = URL(string: message.source) {
-                        ScrollView {
-                            PDFKitView(url: pdfURL)
-                        }
-                        .frame(height: 160)
+                    ScrollView(.vertical) {
+                        PDFKitView(document: document)
+                            .scaledToFit()
                     }
+                    .frame(height: 160)
+                    .background(secondalyGray)
                     HStack {
                         Text(message.author + " " + message.organization)
                             .font(.system(size: 10))
@@ -431,12 +431,20 @@ extension ContentView {
             }
         }
     }
+    
+    func insertPaper(with message: AIMessage) {
+        guard let url = URL(string: message.source) else { chatHistories.append(.error(message: "Please try it later")); return }
+        Task {
+            guard let document = PDFDocument(url: url) else { chatHistories.append(.error(message: "Please try it later")); return }
+            chatHistories.append(.paper(message: message, document: document))
+        }
+    }
 }
 
 enum Message: Identifiable, Equatable {
     case me(message: String)
     case ai(message: AIMessage)
-    case paper(message: AIMessage)
+    case paper(message: AIMessage, document: PDFDocument)
     case error(message: String)
 
     var id: String {
@@ -445,7 +453,7 @@ enum Message: Identifiable, Equatable {
             return message
         case .ai(let message):
             return message.answer
-        case .paper(let message):
+        case .paper(let message, _):
             return message.doi
         case .error(let message):
             return message

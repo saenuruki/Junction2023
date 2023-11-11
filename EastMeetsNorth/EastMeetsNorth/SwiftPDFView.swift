@@ -2,12 +2,12 @@ import PDFKit
 import SwiftUI
 
 struct PDFKitView: UIViewRepresentable {
-    let url: URL // new variable to get the URL of the document
+    let document: PDFDocument // new variable to get the URL of the document
     
     func makeUIView(context: UIViewRepresentableContext<PDFKitView>) -> PDFView {
         // Creating a new PDFVIew and adding a document to it
         let pdfView = PDFView()
-        pdfView.document = PDFDocument(url: self.url)
+        pdfView.document = document
         return pdfView
     }
     
