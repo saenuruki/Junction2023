@@ -53,6 +53,7 @@ struct ContentView: View {
     @State private var animateText = false
     @Namespace private var switchAnimation
     @State private var showingSheet = false
+    @State private var showingPaper = false
 
     var body: some View {
         ZStack {
@@ -342,6 +343,8 @@ struct ContentView: View {
                 .cornerRadius(16)
                 Spacer()
             }
+            .onTapGesture { showingPaper.toggle() }
+            .sheet(isPresented: $showingPaper) { WebView(url: url) }
         }
         .padding(.horizontal, 24)
         .transition(.move(edge: .bottom))
