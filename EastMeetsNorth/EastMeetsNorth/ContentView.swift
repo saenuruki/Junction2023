@@ -66,6 +66,19 @@ struct ContentView: View {
                 }
                 .ignoresSafeArea()
             }
+            if !isSplash {
+                VStack {
+                    Spacer()
+                    ZStack {
+                        LinearGradient(colors: [gradientColor, backgroundColor, backgroundColor, backgroundColor], startPoint: .top, endPoint: .bottom)
+                            .frame(height: isEditing ? 120 : 0)
+                        textInputView
+                            .frame(height: isEditing ? 100 : 0)
+                            .padding(.bottom, 20)
+                            .animation(.easeOut, value: isEditing)
+                    }
+                }
+            }
             if !isEditing {
                 VStack {
                     Spacer()
@@ -85,11 +98,18 @@ struct ContentView: View {
                     } else {
                         chatBody
                             .onChange(of: chatHistories.count) { count in
+                                print("count: \(count)")
                                 proxy.scrollTo(chatHistories.last, anchor: .bottom)
                             }
-                        textInputView
-                            .frame(height: !isSplash && (isEditing || isRecording) ? 100 : 0)
-                            .animation(.easeOut, value: !isSplash && (isEditing || isRecording))
+                        if isRecording || !(inputText.isEmpty || isEditing) {
+                            ScrollView {
+                                Text(speechRecognizer.transcript)
+                                    .font(.system(size: 24))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.horizontal, 36)
+                            .frame(maxHeight: 100)
+                        }
                     }
                 }
             }
@@ -179,7 +199,7 @@ struct ContentView: View {
                 .aspectRatio(contentMode: .fit)
         }
     }
-    
+
     var chatBody: some View {
         VStack(spacing: 40) {
             Spacer().frame(height: 120)
@@ -193,11 +213,13 @@ struct ContentView: View {
                     paperChat(message: message, document: document)
                 case .error(let message):
                     errorChat(message: message)
+                case .loading:
+                    loadingChat()
                 }
             }
             .animation(.easeIn, value: chatHistories)
         }
-        .padding(.bottom, 80)
+        .padding(.bottom, 120)
     }
     
     func meChat(message: String) -> some View {
@@ -279,7 +301,7 @@ struct ContentView: View {
             Spacer()
         }
         .padding(.horizontal, 24)
-        .transition(.move(edge: .bottom))
+//        .transition(.move(edge: .bottom))
     }
 
     func paperChat(message: AIMessage, document: PDFDocument) -> some View {
@@ -330,6 +352,28 @@ struct ContentView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 12)
                 .background(RoundedCorners(color: themeGray, tl: 0, tr: 16, bl: 16, br: 16))
+            Spacer()
+        }
+        .padding(.horizontal, 24)
+//        .transition(.move(edge: .bottom))
+    }
+    
+    func loadingChat() -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 8) {
+                RoundedRectangle(cornerRadius: 4)
+                    .frame(width: UIScreen.screenWidth * 0.6, height: 14)
+                    .foregroundColor(secondalyGray)
+                RoundedRectangle(cornerRadius: 4)
+                    .frame(width: UIScreen.screenWidth * 0.6, height: 14)
+                    .foregroundColor(secondalyGray)
+                RoundedRectangle(cornerRadius: 4)
+                    .frame(width: UIScreen.screenWidth * 0.4, height: 14)
+                    .foregroundColor(secondalyGray)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 12)
+            .background(RoundedCorners(color: themeGray, tl: 0, tr: 16, bl: 16, br: 16))
             Spacer()
         }
         .padding(.horizontal, 24)
@@ -449,6 +493,7 @@ extension ContentView {
         withAnimation {
             chatHistories.append(.me(message: inputText))
             isSplash = false
+            chatHistories.append(.loading)
         }
 
         Task {
@@ -457,9 +502,15 @@ extension ContentView {
                 let urlRequest = URLRequest(url: url)
                 let (data, _) = try await URLSession.shared.data(for: urlRequest)
                 let aiMessage = try JSONDecoder().decode(AIMessage.self, from: data)
+                if case .loading = chatHistories.last {
+                    chatHistories.removeLast()
+                }
                 chatHistories.append(.ai(message: aiMessage))
                 inputText = ""
             } catch {
+                if case .loading = chatHistories.last {
+                    chatHistories.removeLast()
+                }
                 chatHistories.append(.error(message: "Please try it later"))
             }
         }
@@ -479,6 +530,7 @@ enum Message: Identifiable, Equatable, Hashable {
     case ai(message: AIMessage)
     case paper(message: AIMessage, document: PDFDocument)
     case error(message: String)
+    case loading
 
     var id: String {
         switch self {
@@ -490,6 +542,8 @@ enum Message: Identifiable, Equatable, Hashable {
             return message.doi
         case .error(let message):
             return message
+        case .loading:
+            return "loading"
         }
     }
     
