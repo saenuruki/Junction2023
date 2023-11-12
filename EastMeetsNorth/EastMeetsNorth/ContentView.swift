@@ -82,6 +82,18 @@ struct ContentView: View {
             if !isEditing {
                 VStack {
                     Spacer()
+                    if !isSplash {
+                        if isRecording || !speechRecognizer.transcript.isEmpty {
+                            ScrollView {
+                                Text(speechRecognizer.transcript)
+                                    .font(.system(size: 24))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.horizontal, 36)
+                            .frame(maxHeight: 100)
+                            .background(RoundedRectangle(cornerRadius: 20).foregroundColor(backgroundColor))
+                        }
+                    }
                     footer
                 }
                 .ignoresSafeArea()
@@ -101,15 +113,6 @@ struct ContentView: View {
                                 print("count: \(count)")
                                 proxy.scrollTo(chatHistories.last, anchor: .bottom)
                             }
-                        if isRecording || !(inputText.isEmpty || isEditing) {
-                            ScrollView {
-                                Text(speechRecognizer.transcript)
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.white)
-                            }
-                            .padding(.horizontal, 36)
-                            .frame(maxHeight: 100)
-                        }
                     }
                 }
             }
