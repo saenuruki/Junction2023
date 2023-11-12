@@ -212,8 +212,8 @@ struct ContentView: View {
                     meChat(message: message)
                 case .ai(let message):
                     aiChat(message: message)
-                case .paper(let message, let document):
-                    paperChat(message: message, document: document)
+                case .paper(let message, let url):
+                    paperChat(message: message, url: url)
                 case .error(let message):
                     errorChat(message: message)
                 case .loading:
@@ -307,7 +307,7 @@ struct ContentView: View {
 //        .transition(.move(edge: .bottom))
     }
 
-    func paperChat(message: AIMessage, document: PDFDocument) -> some View {
+    func paperChat(message: AIMessage, url: URL) -> some View {
         Group {
             HStack {
                 Text("This is where I found the information")
@@ -321,7 +321,7 @@ struct ContentView: View {
             HStack {
                 VStack {
                     ScrollView(.vertical) {
-                        PDFKitView(document: document)
+                        WebView(url: url)
                             .scaledToFit()
                     }
                     .frame(height: 160)
@@ -497,11 +497,12 @@ extension ContentView {
             chatHistories.append(.me(message: inputText))
             isSplash = false
             chatHistories.append(.loading)
+            speechRecognizer.transcript = ""
         }
 
         Task {
             do {
-                guard let url = URL(string: "https://east-meets-north.citroner.blog/query?question=\(inputText)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return }
+                guard let url = URL(string: "https://east-meets-north.citroner.blog/cgi/query?question=\(inputText)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return }
                 let urlRequest = URLRequest(url: url)
                 let (data, _) = try await URLSession.shared.data(for: urlRequest)
                 let aiMessage = try JSONDecoder().decode(AIMessage.self, from: data)
@@ -521,23 +522,30 @@ extension ContentView {
             chatHistories.append(.loading)
         }
 
-//        guard let url = URL(string: message.doi) else {
-        guard let url = URL(string: "https://arxiv.org/pdf/1706.03762.pdf") else {
-            errorHandling(with: "Invalid URL, Please try it later.")
+        print("⭐️: message: \(message)")
+        guard let url = URL(string: message.source) else {
+//        guard let url = URL(string: "https://arxiv.org/pdf/1706.03762.pdf") else {
+//        guard let url = URL(string: "https://arxiv.org/pdf/1810.04805.pdf") else {
+            errorHandling(with: "Resource Doesn't Exist, Please try it later.")
             return
         }
-        DispatchQueue.global(qos: .userInteractive).async {
-            guard let document = PDFDocument(url: url) else {
-                errorHandling(with: "Invalid URL, Please try it later.")
-                return
-            }
-            DispatchQueue.main.async {
-                if case .loading = chatHistories.last {
-                    chatHistories.removeLast()
-                }
-                chatHistories.append(.paper(message: message, document: document))
-            }
+        
+        if case .loading = chatHistories.last {
+            chatHistories.removeLast()
         }
+        chatHistories.append(.paper(message: message, url: url))
+//        DispatchQueue.global(qos: .userInteractive).async {
+//            guard let document = PDFDocument(url: url) else {
+//                errorHandling(with: "Invalid URL, Please try it later.")
+//                return
+//            }
+//            DispatchQueue.main.async {
+//                if case .loading = chatHistories.last {
+//                    chatHistories.removeLast()
+//                }
+//                chatHistories.append(.paper(message: message, document: document))
+//            }
+//        }
     }
     
     func errorHandling(with message: String) {
@@ -551,7 +559,7 @@ extension ContentView {
 enum Message: Identifiable, Equatable, Hashable {
     case me(message: String)
     case ai(message: AIMessage)
-    case paper(message: AIMessage, document: PDFDocument)
+    case paper(message: AIMessage, url: URL)
     case error(message: String)
     case loading
 

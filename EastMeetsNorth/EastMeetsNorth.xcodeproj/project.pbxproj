@@ -19,6 +19,7 @@
 		FF3EB7442B001D20009B3E8F /* AnimatedGifView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB7432B001D20009B3E8F /* AnimatedGifView.swift */; };
 		FF3EB7462B001D50009B3E8F /* main_circle.gif in Resources */ = {isa = PBXBuildFile; fileRef = FF3EB7452B001D50009B3E8F /* main_circle.gif */; };
 		FF3EB7492B001FED009B3E8F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FF3EB7482B001FED009B3E8F /* Kingfisher */; };
+		FF3EB74B2B009B6F009B3E8F /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB74A2B009B6F009B3E8F /* WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		FF3EB73C2B00009C009B3E8F /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		FF3EB7432B001D20009B3E8F /* AnimatedGifView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedGifView.swift; sourceTree = "<group>"; };
 		FF3EB7452B001D50009B3E8F /* main_circle.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = main_circle.gif; sourceTree = "<group>"; };
+		FF3EB74A2B009B6F009B3E8F /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				FF3EB73A2AFFDA57009B3E8F /* SwiftPDFView.swift */,
 				FF3EB73C2B00009C009B3E8F /* GuideView.swift */,
 				FF3EB7432B001D20009B3E8F /* AnimatedGifView.swift */,
+				FF3EB74A2B009B6F009B3E8F /* WebView.swift */,
 			);
 			path = EastMeetsNorth;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 				FF3EB7352AFF7F89009B3E8F /* RoundedCorners.swift in Sources */,
 				FF3EB7442B001D20009B3E8F /* AnimatedGifView.swift in Sources */,
 				FF3EB73D2B00009C009B3E8F /* GuideView.swift in Sources */,
+				FF3EB74B2B009B6F009B3E8F /* WebView.swift in Sources */,
 				FF3EB7372AFF840A009B3E8F /* CircularProgressView.swift in Sources */,
 				FF3EB7272AFF6671009B3E8F /* EastMeetsNorthApp.swift in Sources */,
 			);
@@ -301,7 +305,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"EastMeetsNorth/Preview Content\"";
 				DEVELOPMENT_TEAM = 679U29FZ6S;
 				ENABLE_PREVIEWS = YES;
@@ -334,7 +338,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"EastMeetsNorth/Preview Content\"";
 				DEVELOPMENT_TEAM = 679U29FZ6S;
 				ENABLE_PREVIEWS = YES;
