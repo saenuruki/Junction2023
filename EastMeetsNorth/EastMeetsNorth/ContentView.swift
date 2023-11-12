@@ -511,20 +511,40 @@ extension ContentView {
                 chatHistories.append(.ai(message: aiMessage))
                 inputText = ""
             } catch {
-                if case .loading = chatHistories.last {
-                    chatHistories.removeLast()
-                }
-                chatHistories.append(.error(message: "Please try it later"))
+                errorHandling(with: "Network Issue, Please try it later.")
             }
         }
     }
     
     func insertPaper(with message: AIMessage) {
-        guard let url = URL(string: message.source) else { chatHistories.append(.error(message: "Please try it later")); return }
-        Task {
-            guard let document = PDFDocument(url: url) else { chatHistories.append(.error(message: "Please try it later")); return }
-            chatHistories.append(.paper(message: message, document: document))
+        withAnimation {
+            chatHistories.append(.loading)
         }
+
+//        guard let url = URL(string: message.doi) else {
+        guard let url = URL(string: "https://arxiv.org/pdf/1706.03762.pdf") else {
+            errorHandling(with: "Invalid URL, Please try it later.")
+            return
+        }
+        DispatchQueue.global(qos: .userInteractive).async {
+            guard let document = PDFDocument(url: url) else {
+                errorHandling(with: "Invalid URL, Please try it later.")
+                return
+            }
+            DispatchQueue.main.async {
+                if case .loading = chatHistories.last {
+                    chatHistories.removeLast()
+                }
+                chatHistories.append(.paper(message: message, document: document))
+            }
+        }
+    }
+    
+    func errorHandling(with message: String) {
+        if case .loading = chatHistories.last {
+            chatHistories.removeLast()
+        }
+        chatHistories.append(.error(message: message))
     }
 }
 
